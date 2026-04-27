@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devendra Mali Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f1f5f9;
+}
+
+/* HEADER */
+.header {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    padding: 30px;
+    color: white;
+}
+
+/* PROFILE */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: white;
+    object-fit: cover;
+}
+
+.upload-btn {
+    margin-top: 10px;
+}
+
+/* INFO */
+.info h1 {
+    margin: 0;
+}
+
+.info p {
+    margin: 5px 0;
+}
+
+/* CARD */
+.container {
+    margin: -30px auto;
+    max-width: 900px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* TABS */
+.tabs {
+    display: flex;
+    gap: 15px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tabs button {
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.tabs button.active {
+    border-bottom: 3px solid #3b82f6;
+    font-weight: bold;
+}
+
+/* CONTENT */
+.section {
+    display: none;
+    padding: 20px 0;
+}
+
+.section.active {
+    display: block;
+}
+
+/* EDIT */
+.edit-btn {
+    float: right;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+}
+
+/* INPUT */
+input, textarea {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+}
+
+/* FILE LIST */
+.file-list a {
+    display: block;
+    margin-top: 5px;
+    color: #3b82f6;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="profile">
+        <div>
+            <img id="photoPreview">
+            <input type="file" id="photoUpload" class="upload-btn">
+        </div>
+
+        <div class="info">
+            <h1>Devendra Kumar Mali</h1>
+            <p>BCA Student | Developer</p>
+            <p>📧 devmali1412@gmail.com</p>
+            <p>📞 7297922722</p>
+            <p>📍 Malabar County 1, Ahmedabad</p>
+            <p>💻 GitHub: devendra-14</p>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+    <div class="tabs">
+        <button onclick="showTab('about')" class="active">About</button>
+        <button onclick="showTab('education')">Education</button>
+        <button onclick="showTab('projects')">Projects</button>
+        <button onclick="showTab('certificates')">Certificates</button>
+        <button onclick="showTab('contact')">Contact</button>
+    </div>
+
+    <!-- ABOUT -->
+    <div id="about" class="section active">
+        <button class="edit-btn" onclick="saveAbout()">Save</button>
+        <h2>About Me</h2>
+        <textarea id="aboutText">I am Devendra Kumar Mali, a passionate BCA student focused on building real-world projects.</textarea>
+    </div>
+
+    <!-- EDUCATION -->
+    <div id="education" class="section">
+        <button class="edit-btn" onclick="saveEducation()">Save</button>
+        <h2>Education</h2>
+
+        <input id="ten" value="10th - Emmanuel Mission School - 64%">
+        <input id="twelve" value="12th - Emmanuel Mission School - 83%">
+        <input id="college" value="Silver Oak University - BCA Student">
+    </div>
+
+    <!-- PROJECT -->
+    <div id="projects" class="section">
+        <h2>Projects</h2>
+        <p>GitHub: <a href="https://github.com/devendra-14" target="_blank">devendra-14</a></p>
+
+        <input type="file" id="projectUpload" multiple>
+        <div id="projectList" class="file-list"></div>
+
+        <button onclick="saveProject()">Upload</button>
+    </div>
+
+    <!-- CERTIFICATES -->
+    <div id="certificates" class="section">
+        <h2>Certificates</h2>
+
+        <input type="file" id="certUpload" multiple>
+        <div id="certList" class="file-list"></div>
+
+        <button onclick="saveCert()">Upload</button>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="contact" class="section">
+        <button class="edit-btn" onclick="saveContact()">Save</button>
+        <h2>Contact</h2>
+
+        <input id="email" value="devmali1412@gmail.com">
+        <input id="phone" value="7297922722">
+        <input id="address" value="Malabar County 1, Ahmedabad">
+    </div>
+
+</div>
+
+<script>
+function showTab(tab) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(tab).classList.add("active");
+
+    document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("active"));
+    event.target.classList.add("active");
+}
+
+/* PHOTO */
+photoUpload.onchange = function() {
+    let reader = new FileReader();
+    reader.onload = function() {
+        localStorage.setItem("photo", reader.result);
+        photoPreview.src = reader.result;
+    }
+    reader.readAsDataURL(this.files[0]);
+};
+
+/* SAVE FUNCTIONS */
+function saveAbout() {
+    localStorage.setItem("about", aboutText.value);
+}
+
+function saveEducation() {
+    localStorage.setItem("ten", ten.value);
+    localStorage.setItem("twelve", twelve.value);
+    localStorage.setItem("college", college.value);
+}
+
+function saveContact() {
+    localStorage.setItem("email", email.value);
+    localStorage.setItem("phone", phone.value);
+    localStorage.setItem("address", address.value);
+}
+
+/* FILE UPLOAD */
+function saveProject() {
+    for (let file of projectUpload.files) {
+        let reader = new FileReader();
+        reader.onload = function() {
+            let a = document.createElement("a");
+            a.href = reader.result;
+            a.textContent = file.name;
+            projectList.appendChild(a);
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+function saveCert() {
+    for (let file of certUpload.files) {
+        let reader = new FileReader();
+        reader.onload = function() {
+            let a = document.createElement("a");
+            a.href = reader.result;
+            a.textContent = file.name;
+            certList.appendChild(a);
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+/* LOAD */
+window.onload = function() {
+    if(localStorage.getItem("photo"))
+        photoPreview.src = localStorage.getItem("photo");
+
+    aboutText.value = localStorage.getItem("about") || aboutText.value;
+    ten.value = localStorage.getItem("ten") || ten.value;
+    twelve.value = localStorage.getItem("twelve") || twelve.value;
+    college.value = localStorage.getItem("college") || college.value;
+
+    email.value = localStorage.getItem("email") || email.value;
+    phone.value = localStorage.getItem("phone") || phone.value;
+    address.value = localStorage.getItem("address") || address.value;
+}
+</script>
+
+</body>
+</html>
